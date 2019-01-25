@@ -14,7 +14,6 @@ defmodule LoadFest do
     source = Application.get_env(:loadfest, :logflare_source)
     url = "https://logflare.app/api/logs"
     user_agent = "Loadfest"
-    line = "Derp"
 
     headers = [
       {"Content-type", "application/json"},
@@ -28,9 +27,11 @@ defmodule LoadFest do
           log_entry: line,
           source: source,
           })
-
-        line = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
-        IO.puts(line.status_code)
+        prev = System.monotonic_time()
+        request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
+        next = System.monotonic_time()
+        diff = next - prev
+        IO.puts("#{request.status_code} | #{diff/1000000}ms")
       end)
     end
   end
