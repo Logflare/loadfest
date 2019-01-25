@@ -41,8 +41,7 @@ defmodule LoadFest do
     api_key = "Z0mEDl_ZxB-5"
     source = "5f3c0076-b5c4-4c35-89d3-578282abf469"
     url = "http://localhost:4000/api/logs"
-    user_agent = "Test script"
-    line = "Derp"
+    user_agent = "Loadfest"
 
     headers = [
       {"Content-type", "application/json"},
@@ -50,14 +49,14 @@ defmodule LoadFest do
       {"User-Agent", user_agent}
     ]
 
-    body = Jason.encode!(%{
-      log_entry: line,
-      source: source,
-      })
+    for line <- 1..count do
+      body = Jason.encode!(%{
+        log_entry: line,
+        source: source,
+        })
 
-    for n <- 1..count do
-      n = HTTPoison.post!(url, body, headers)
-      IO.puts(n.status_code)
+      request = HTTPoison.post!(url, body, headers)
+      IO.puts(request.status_code)
     end
   end
 
