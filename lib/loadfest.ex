@@ -9,7 +9,7 @@ defmodule LoadFest do
   ## Examples
 
   """
-  def post() do
+  def post(count) do
     api_key = Application.get_env(:loadfest, :logflare_api_key)
     source = Application.get_env(:loadfest, :logflare_source)
     url = "https://logflare.app/api/logs"
@@ -22,15 +22,23 @@ defmodule LoadFest do
       {"User-Agent", user_agent}
     ]
 
-    for line <- 1..100 do
-      body = Jason.encode!(%{
-        log_entry: line,
-        source: source,
-        })
+    for line <- 1..count do
+      Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+        body = Jason.encode!(%{
+          log_entry: line,
+          source: source,
+          })
 
-      line = HTTPoison.post!(url, body, headers)
-      IO.puts(line.status_code)
+        line = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
+        IO.puts(line.status_code)
+      end)
     end
+  end
+
+  def sup_test() do
+    Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+      IO.puts("derp")
+    end)
   end
 
 end
