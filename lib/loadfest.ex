@@ -27,6 +27,7 @@ defmodule LoadFest do
           log_entry: line,
           source: source,
           })
+        ### Should pull metrics from HTTPoison to do this correctly.
         prev = System.monotonic_time()
         request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
         next = System.monotonic_time()
