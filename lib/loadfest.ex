@@ -9,10 +9,14 @@ defmodule LoadFest do
   ## Examples
 
   """
-  def post(count) do
-    api_key = Application.get_env(:loadfest, :logflare_api_key)
-    source = Application.get_env(:loadfest, :logflare_source)
-    url = "https://logflare.app/api/logs"
+  def post_async(count, env) do
+    key = String.to_atom("logflare_api_key" <> "_" <> env)
+    source_key = String.to_atom("logflare_source" <> "_" <> env)
+    endpoint = String.to_atom("logflare_endpoint" <> "_" <> env)
+
+    api_key = Application.get_env(:loadfest, key)
+    source = Application.get_env(:loadfest, source_key)
+    url = Application.get_env(:loadfest, endpoint)
     user_agent = "Loadfest"
 
     headers = [
@@ -37,9 +41,9 @@ defmodule LoadFest do
     end
   end
 
-  def post_dev(count) do
+  def post_dev_sync(count) do
     api_key = "Z0mEDl_ZxB-5"
-    source = "5f3c0076-b5c4-4c35-89d3-578282abf469"
+    source = "43e64065-1dff-4be8-a0de-509e55cdd551"
     url = "http://localhost:4000/api/logs"
     user_agent = "Loadfest"
 
