@@ -41,10 +41,14 @@ defmodule LoadFest do
     end
   end
 
-  def post_dev_sync(count) do
-    api_key = "Z0mEDl_ZxB-5"
-    source = "43e64065-1dff-4be8-a0de-509e55cdd551"
-    url = "http://localhost:4000/api/logs"
+  def post_sync(count, env) do
+    key = String.to_atom("logflare_api_key" <> "_" <> env)
+    source_key = String.to_atom("logflare_source" <> "_" <> env)
+    endpoint = String.to_atom("logflare_endpoint" <> "_" <> env)
+
+    api_key = Application.get_env(:loadfest, key)
+    source = Application.get_env(:loadfest, source_key)
+    url = Application.get_env(:loadfest, endpoint)
     user_agent = "Loadfest"
 
     headers = [
@@ -61,6 +65,7 @@ defmodule LoadFest do
 
       request = HTTPoison.post!(url, body, headers)
       IO.puts(request.status_code)
+      Process.sleep(1000)
     end
   end
 
