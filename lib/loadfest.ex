@@ -63,8 +63,11 @@ defmodule LoadFest do
         source: source,
         })
 
+      prev = System.monotonic_time()
       request = HTTPoison.post!(url, body, headers)
-      IO.puts(request.status_code)
+      next = System.monotonic_time()
+      diff = next - prev
+      IO.puts("#{request.status_code} | #{diff/1000000}ms")
       Process.sleep(1000)
     end
   end
