@@ -47,9 +47,10 @@ defmodule LoadFest do
       {"User-Agent", user_agent}
     ]
 
-    body = Jason.encode!(%{
-      log_entry: line,
-      source: source,
+    body =
+      Jason.encode!(%{
+        log_entry: line,
+        source: source
       })
 
     ### Should pull metrics from HTTPoison to do this correctly.
@@ -57,7 +58,6 @@ defmodule LoadFest do
     request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
     next = System.monotonic_time()
     diff = next - prev
-    IO.puts("#{request.status_code} | #{diff/1000000}ms")
+    IO.puts("#{request.status_code} | #{diff / 1_000_000}ms")
   end
-
 end
