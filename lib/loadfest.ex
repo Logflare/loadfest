@@ -3,6 +3,8 @@ defmodule LoadFest do
   Load tester for Logflare.
   """
 
+  require Logger
+
   @doc """
   Posts async a lot to a Logflare source.
 
@@ -58,6 +60,7 @@ defmodule LoadFest do
     request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
     next = System.monotonic_time()
     diff = next - prev
-    IO.puts("#{request.status_code} | #{diff / 1_000_000}ms")
+
+    Logger.info("#{request.status_code} | #{diff / 1_000_000}ms")
   end
 end
