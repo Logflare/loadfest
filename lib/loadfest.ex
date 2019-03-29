@@ -19,6 +19,18 @@ defmodule LoadFest do
     end
   end
 
+  def post_async(seconds, count, env) do
+    for _a <- 1..seconds do
+      Process.sleep(1000)
+
+      for line <- 1..count do
+        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+          post(line, env)
+        end)
+      end
+    end
+  end
+
   @doc """
   Posts synchronously to a Logflare source.
 
