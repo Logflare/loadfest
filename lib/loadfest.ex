@@ -86,4 +86,10 @@ defmodule LoadFest do
 
     Logger.info("#{request.status_code} | #{diff / 1_000_000}ms")
   end
+
+  defp json_file() do
+    with {:ok, body} <- File.read("log_examples/papi_serp.json"),
+         {:ok, json} <- Jason.decode(body),
+         do: {:ok, json}
+  end
 end
