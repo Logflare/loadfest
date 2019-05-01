@@ -14,18 +14,18 @@ defmodule LoadFest do
   def post_async(count, env) do
     for line <- 1..count do
       Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
-        post(line, env)
+        post("#{line}", env)
       end)
     end
   end
 
-  def post_async(seconds, count, env) do
-    for _a <- 1..seconds do
-      Process.sleep(1000)
+  def post_async(its, sleep, count, env) do
+    for _a <- 1..its do
+      Process.sleep(sleep)
 
       for line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
-          post(line, env)
+          post("#{line}", env)
         end)
       end
     end
@@ -40,7 +40,7 @@ defmodule LoadFest do
 
   def post_sync(count, env) do
     for line <- 1..count do
-      post(line, env)
+      post("#{line}", env)
       Process.sleep(1000)
     end
   end
@@ -61,13 +61,24 @@ defmodule LoadFest do
       {"User-Agent", user_agent}
     ]
 
+    metadata = %{
+      "response_code" => 200,
+      "server" => "cloudflare",
+      "cache_status" => "HIT",
+      "user_agent" => "Google Chrome",
+      "datacenter" => "aws",
+      "real_ip" => "ip address"
+    }
+
     body =
       Jason.encode!(%{
         log_entry: line,
-        source: source
+        source: source,
+        metadata: metadata
       })
 
     ### Should pull metrics from HTTPoison to do this correctly.
+
     prev = System.monotonic_time()
     request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
     next = System.monotonic_time()
