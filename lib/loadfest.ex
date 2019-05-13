@@ -83,8 +83,13 @@ defmodule LoadFest do
     request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
     next = System.monotonic_time()
     diff = next - prev
+    response_headers = Enum.into(request.headers, %{})
 
-    Logger.info("#{request.status_code} | #{diff / 1_000_000}ms")
+    Logger.info(
+      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{
+        diff / 1_000_000
+      }ms"
+    )
   end
 
   defp json_file() do

@@ -3,8 +3,8 @@ use Mix.Config
 config :logger, :console, format: "$time $metadata[$level] $levelpad$message\n"
 
 config :loadfest,
-  logflare_source_prod: "90819c3d-005e-47e7-91ed-d367192590bd",
-  logflare_source_dev: "064a8344-7c8e-4494-be8d-557c95e95b01",
+  logflare_source_prod: "9add149f-1ec4-4514-871e-ecd1b7358c79",
+  logflare_source_dev: "bdc9a9b0-9c55-4938-aa92-64155261403a",
   # logflare_endpoint_prod: "https://logflare.app/api/logs",
   logflare_endpoint_prod: "https://logflarelogs.com/api/logs",
   logflare_endpoint_dev: "http://localhost:4000/api/logs"
