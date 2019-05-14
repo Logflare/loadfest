@@ -6,7 +6,7 @@ defmodule LoadFest do
   require Logger
 
   @doc """
-  Posts async a lot to a Logflare source.
+  POSTs async a lot to a Logflare source.
 
   ## Examples
 
@@ -19,6 +19,12 @@ defmodule LoadFest do
     end
   end
 
+  @doc """
+  POSTs async to a logflare source with more options.
+
+  ## Examples
+
+  """
   def post_async(its, sleep, count, env) do
     for _a <- 1..its do
       Process.sleep(sleep)
@@ -32,17 +38,40 @@ defmodule LoadFest do
   end
 
   @doc """
-  Posts synchronously to a Logflare source.
+  GETs a url a lot.
 
   ## Examples
 
   """
+  def get_async(its, sleep, count, url) do
+    for _a <- 1..its do
+      Process.sleep(sleep)
 
+      for _line <- 1..count do
+        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+          get(url)
+        end)
+      end
+    end
+  end
+
+  @doc """
+  POSTs synchronously to a Logflare source.
+
+  ## Examples
+
+  """
   def post_sync(count, env) do
     for line <- 1..count do
       post("#{line}", env)
       Process.sleep(1000)
     end
+  end
+
+  defp get(url) do
+    request = HTTPoison.get!(url)
+
+    Logger.info("#{request.status_code}")
   end
 
   defp post(line, env) do
