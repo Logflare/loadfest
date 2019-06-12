@@ -1,0 +1,84 @@
+{
+	"source": "09f5db03-ac00-44fa-80b5-26a531e09524",
+	"log_entry": "GET | 200 | https://logflare.app/dashboard | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Safari/537.36",
+	"metadata": {
+		"request": {
+			"cf": {
+				"asn": 22773,
+				"clientTrustScore": 95,
+				"colo": "LAX",
+				"country": "US",
+				"httpProtocol": "HTTP/2",
+				"requestPriority": "weight=256;exclusive=1",
+				"tlsCipher": "AEAD-AES128-GCM-SHA256",
+				"tlsClientAuth": {
+					"certPresented": "0",
+					"certVerified": "NONE"
+				},
+				"tlsVersion": "TLSv1.3"
+			},
+			"headers": {
+				"accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+				"accept_encoding": "gzip",
+				"accept_language": "en-US,en;q=0.9",
+				"cf_connecting_ip": "2001:579:821c:20:70f7:1f85:878:af29",
+				"cf_ipcountry": "US",
+				"cf_ray": "4e5dc05fd8102256",
+				"cf_visitor": "{\"scheme\":\"https\"}",
+				"connection": "Keep-Alive",
+				"cookie": "__cfduid=d333b3cb50fa750bfb481afb4eedcd0fa1556828880; _ga=GA1.2.627604221.1556828879; _gid=GA1.2.261421203.1556828879; _logflare_key=SFMyNTY.g3QAAAACbQAAAAtfY3NyZl90b2tlbm0AAAAYSURZeWluMzRfS3dsS2pvSDZWQ2Vlb2ZnbQAAAAd1c2VyX2lkYQE.Vahvs2AwkV5MZFOb1-XAF2ZKYO9GBWq1CzIhh-xr4cc",
+				"host": "logflare.app",
+				"referer": "https://logflare.app/sources/837",
+				"upgrade_insecure_requests": "1",
+				"user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Safari/537.36",
+				"x_forwarded_proto": "https",
+				"x_real_ip": "2001:579:821c:20:70f7:1f85:878:af29"
+			},
+			"ipInfo": {
+				"asn": {
+					"asn": "AS22773",
+					"domain": "cox.com",
+					"name": "Cox Communications Inc.",
+					"route": "2001:579:8000::/36",
+					"type": "isp"
+				},
+				"city": "Phoenix",
+				"company": {
+					"domain": "cox.com",
+					"name": "Cox Communications Inc.",
+					"type": "isp"
+				},
+				"country": "US",
+				"ip": "2001:579:821c:20:70f7:1f85:878:af29",
+				"loc": "33.4484,-112.0740",
+				"phone": "602",
+				"postal": "85005",
+				"region": "Arizona"
+			},
+			"method": "GET",
+			"url": "https://logflare.app/dashboard"
+		},
+		"response": {
+			"headers": {
+				"alt_svc": "clear",
+				"cache_control": "max-age=0, private, must-revalidate",
+				"cf_ray": "4e5dc05fe62c2256-LAX",
+				"connection": "keep-alive",
+				"content_type": "text/html; charset=utf-8",
+				"cross_origin_window_policy": "deny",
+				"date": "Wed, 12 Jun 2019 18:05:11 GMT",
+				"expect_ct": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+				"server": "cloudflare",
+				"transfer_encoding": "chunked",
+				"via": "1.1 google",
+				"x_content_type_options": "nosniff",
+				"x_download_options": "noopen",
+				"x_frame_options": "SAMEORIGIN",
+				"x_permitted_cross_domain_policies": "none",
+				"x_xss_protection": "1; mode=block"
+			},
+			"origin_time": 113,
+			"status_code": 200
+		}
+	}
+}

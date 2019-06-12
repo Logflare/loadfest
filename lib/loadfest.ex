@@ -64,7 +64,7 @@ defmodule LoadFest do
   def post_sync(count, env) do
     for line <- 1..count do
       post("#{line}", env)
-      Process.sleep(1000)
+      Process.sleep(0)
     end
   end
 
