@@ -24,7 +24,7 @@ defmodule LoadFest.MixProject do
     [
       {:httpoison, "~> 1.4"},
       {:jason, "~> 1.0"},
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.1.4", only: [:dev, :test], runtime: false}
     ]
   end
 end
