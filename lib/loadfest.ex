@@ -38,6 +38,24 @@ defmodule LoadFest do
   end
 
   @doc """
+  POSTs async to a logflare source in batches.
+
+  ## Examples
+
+  """
+  def post_async_batch(its, sleep, count, env) do
+    for _a <- 1..its do
+      Process.sleep(sleep)
+
+      for line <- 1..count do
+        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+          post_batch("#{line}", env)
+        end)
+      end
+    end
+  end
+
+  @doc """
   GETs a url a lot.
 
   ## Examples
@@ -68,10 +86,20 @@ defmodule LoadFest do
     end
   end
 
-  defp get(url) do
-    request = HTTPoison.get!(url)
+  def post_sync_batch(count, env) do
+    for line <- 1..count do
+      post_batch("#{line}", env)
+      Process.sleep(0)
+    end
+  end
 
-    Logger.info("#{request.status_code}")
+  defp get(url) do
+    prev = System.monotonic_time()
+    request = HTTPoison.get!(url, [], hackney: [pool: :loadfest_pool])
+    next = System.monotonic_time()
+    diff = next - prev
+
+    Logger.info("#{request.status_code} | #{diff / 1_000_000}ms")
   end
 
   defp post(line, env) do
@@ -104,6 +132,71 @@ defmodule LoadFest do
         log_entry: line,
         source: source,
         metadata: metadata
+      })
+
+    ### Should pull metrics from HTTPoison to do this correctly.
+
+    prev = System.monotonic_time()
+    request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
+    next = System.monotonic_time()
+    diff = next - prev
+    response_headers = Enum.into(request.headers, %{})
+
+    Logger.info(
+      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{
+        diff / 1_000_000
+      }ms"
+    )
+  end
+
+  defp post_batch(line, env) do
+    key = String.to_atom("logflare_api_key" <> "_" <> env)
+    source_key = String.to_atom("logflare_source" <> "_" <> env)
+    endpoint = String.to_atom("logflare_endpoint" <> "_" <> env)
+
+    api_key = Application.get_env(:loadfest, key)
+    source = Application.get_env(:loadfest, source_key)
+    url = Application.get_env(:loadfest, endpoint) <> "/elixir/logger"
+    user_agent = "Loadfest"
+
+    headers = [
+      {"Content-type", "application/json"},
+      {"X-API-KEY", api_key},
+      {"User-Agent", user_agent}
+    ]
+
+    metadata = %{
+      custom_user_data: %{
+        address: %{
+          city: "New York",
+          st: "NY",
+          street: "123 W Main St",
+          zip: "11111"
+        },
+        company: "Apple",
+        id: 38,
+        login_count: 154,
+        vip: true
+      },
+      datacenter: "aws",
+      ip_address: "100.100.100.100",
+      request_headers: %{connection: "close", user_agent: "chrome"},
+      request_method: "POST"
+    }
+
+    batch =
+      0..100
+      |> Enum.map(fn x ->
+        %{
+          log_entry: line,
+          metadata: metadata
+        }
+      end)
+
+    body =
+      Jason.encode!(%{
+        source: source,
+        batch: batch
       })
 
     ### Should pull metrics from HTTPoison to do this correctly.
