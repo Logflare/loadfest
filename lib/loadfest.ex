@@ -19,6 +19,14 @@ defmodule LoadFest do
     end
   end
 
+  def post_async_json(count, env) do
+    for line <- 1..count do
+      Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+        post_json("prod")
+      end)
+    end
+  end
+
   @doc """
   POSTs async to a logflare source with more options.
 
@@ -31,7 +39,7 @@ defmodule LoadFest do
 
       for line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
-          post("#{line}", env)
+          post_json(env)
         end)
       end
     end
@@ -50,6 +58,18 @@ defmodule LoadFest do
       for line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
           post_batch("#{line}", env)
+        end)
+      end
+    end
+  end
+
+  def post_async_batch_json(its, sleep, count, env) do
+    for _a <- 1..its do
+      Process.sleep(sleep)
+
+      for line <- 1..count do
+        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+          post_json(env)
         end)
       end
     end
@@ -138,6 +158,45 @@ defmodule LoadFest do
 
     prev = System.monotonic_time()
     request = HTTPoison.post!(url, body, headers, hackney: [pool: :loadfest_pool])
+    next = System.monotonic_time()
+    diff = next - prev
+    response_headers = Enum.into(request.headers, %{})
+
+    Logger.info(
+      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{
+        diff / 1_000_000
+      }ms"
+    )
+  end
+
+  def post_json(env) do
+    key = String.to_atom("logflare_api_key" <> "_" <> env)
+    source_key = String.to_atom("logflare_source" <> "_" <> env)
+    endpoint = String.to_atom("logflare_endpoint" <> "_" <> env)
+
+    api_key = Application.get_env(:loadfest, key)
+    source = Application.get_env(:loadfest, source_key)
+    url = Application.get_env(:loadfest, endpoint) <> "/json"
+    user_agent = "Loadfest"
+
+    headers = [
+      {"Content-type", "application/json"}
+    ]
+
+    params = %{"source_id" => source, "api_key" => api_key}
+
+    batch =
+      0..4
+      |> Enum.map(fn _x -> LoadFest.Json.event() end)
+      |> Jason.encode!()
+
+    ### Should pull metrics from HTTPoison to do this correctly.
+
+    prev = System.monotonic_time()
+
+    request =
+      HTTPoison.post!(url, batch, headers, params: params, hackney: [pool: :loadfest_pool])
+
     next = System.monotonic_time()
     diff = next - prev
     response_headers = Enum.into(request.headers, %{})

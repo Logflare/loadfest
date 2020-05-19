@@ -22,7 +22,7 @@ defmodule LoadFest.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.4"},
+      {:httpoison, "~> 1.6.2"},
       {:jason, "~> 1.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
