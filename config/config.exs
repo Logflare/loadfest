@@ -11,4 +11,4 @@ config :loadfest,
   logflare_endpoint_dev: "http://localhost:4000/api/logs",
   logflare_endpoint_stag: "https://api.logflarestaging.com/logs"
 
-import_config "secrets.exs"
+# import_config "secrets.exs"
