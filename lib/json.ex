@@ -21,7 +21,7 @@ defmodule LoadFest.Json do
   end
 
   defp manu(), do: random(["Zenith", "Sub Zero", "Wolf", "Bosch", "Kitchen Aid"])
-  defp temp(), do: random(1..100)
+  defp temp(), do: random(1..1_000_000)
   defp tags(), do: take(all_tags(), 3)
 
   defp all_tags(),

@@ -19,10 +19,10 @@ defmodule LoadFest do
     end
   end
 
-  def post_async_json(count, env) do
+  def post_async_json(count, batch_size, env) do
     for line <- 1..count do
       Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
-        post_json("prod")
+        post_json(batch_size, env)
       end)
     end
   end
@@ -33,13 +33,13 @@ defmodule LoadFest do
   ## Examples
 
   """
-  def post_async(its, sleep, count, env) do
+  def post_async(its, sleep, count, batch_size, env) do
     for _a <- 1..its do
       Process.sleep(sleep)
 
       for line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
-          post_json(env)
+          post_json(batch_size, env)
         end)
       end
     end
@@ -63,13 +63,13 @@ defmodule LoadFest do
     end
   end
 
-  def post_async_batch_json(its, sleep, count, env) do
+  def post_async_batch_json(its, sleep, count, batch_size, env) do
     for _a <- 1..its do
       Process.sleep(sleep)
 
       for line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
-          post_json(env)
+          post_json(batch_size, env)
         end)
       end
     end
@@ -169,15 +169,15 @@ defmodule LoadFest do
     )
   end
 
-  def post_json(env) do
+  def post_json(batch_size, env) do
     key = String.to_atom("logflare_api_key" <> "_" <> env)
     source_key = String.to_atom("logflare_source" <> "_" <> env)
     endpoint = String.to_atom("logflare_endpoint" <> "_" <> env)
-
     api_key = Application.get_env(:loadfest, key)
     source = Application.get_env(:loadfest, source_key)
     url = Application.get_env(:loadfest, endpoint) <> "/json"
     user_agent = "Loadfest"
+    batch_size = batch_size - 1
 
     headers = [
       {"Content-type", "application/json"}
@@ -186,7 +186,7 @@ defmodule LoadFest do
     params = %{"source_id" => source, "api_key" => api_key}
 
     batch =
-      0..4
+      0..batch_size
       |> Enum.map(fn _x -> LoadFest.Json.event() end)
       |> Jason.encode!()
 

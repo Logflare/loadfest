@@ -10,7 +10,7 @@ defmodule LoadFest.Application do
 
     children = [
       {Task.Supervisor, name: LoadFest.TaskSupervisor},
-      :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 100)
+      :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 500)
     ]
 
     opts = [strategy: :one_for_one, name: LoadFest.Supervisor]

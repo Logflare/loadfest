@@ -23,6 +23,7 @@ defmodule LoadFest.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.6.2"},
+      {:hackney, "~>1.16.0"},
       {:jason, "~> 1.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
