@@ -20,7 +20,7 @@ defmodule LoadFest do
   end
 
   def post_async_json(count, batch_size, env) do
-    for line <- 1..count do
+    for _line <- 1..count do
       Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
         post_json(batch_size, env)
       end)
@@ -37,7 +37,7 @@ defmodule LoadFest do
     for _a <- 1..its do
       Process.sleep(sleep)
 
-      for line <- 1..count do
+      for _line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
           post_json(batch_size, env)
         end)
@@ -67,7 +67,7 @@ defmodule LoadFest do
     for _a <- 1..its do
       Process.sleep(sleep)
 
-      for line <- 1..count do
+      for _line <- 1..count do
         Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
           post_json(batch_size, env)
         end)
@@ -163,9 +163,7 @@ defmodule LoadFest do
     response_headers = Enum.into(request.headers, %{})
 
     Logger.info(
-      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{
-        diff / 1_000_000
-      }ms"
+      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{diff / 1_000_000}ms"
     )
   end
 
@@ -176,7 +174,7 @@ defmodule LoadFest do
     api_key = Application.get_env(:loadfest, key)
     source = Application.get_env(:loadfest, source_key)
     url = Application.get_env(:loadfest, endpoint) <> "/json"
-    user_agent = "Loadfest"
+    _user_agent = "Loadfest"
     batch_size = batch_size - 1
 
     headers = [
@@ -202,9 +200,7 @@ defmodule LoadFest do
     response_headers = Enum.into(request.headers, %{})
 
     Logger.info(
-      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{
-        diff / 1_000_000
-      }ms"
+      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{diff / 1_000_000}ms"
     )
   end
 
@@ -245,7 +241,7 @@ defmodule LoadFest do
 
     batch =
       0..100
-      |> Enum.map(fn x ->
+      |> Enum.map(fn _x ->
         %{
           log_entry: line,
           metadata: metadata
@@ -267,9 +263,7 @@ defmodule LoadFest do
     response_headers = Enum.into(request.headers, %{})
 
     Logger.info(
-      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{
-        diff / 1_000_000
-      }ms"
+      "#{request.status_code} | #{response_headers["x-rate-limit-source_remaining"]} | #{diff / 1_000_000}ms"
     )
   end
 
