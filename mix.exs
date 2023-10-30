@@ -1,4 +1,4 @@
-defmodule LoadFest.MixProject do
+defmodule Loadfest.MixProject do
   use Mix.Project
 
   def project do
@@ -7,14 +7,15 @@ defmodule LoadFest.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {LoadFest.Application, []},
+      mod: {Loadfest.Application, []},
       extra_applications: [:logger]
     ]
   end
@@ -22,10 +23,17 @@ defmodule LoadFest.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.6.2"},
-      {:hackney, "~>1.16.0"},
+      {:httpoison, "~> 2.0"},
+      {:hackney, "~>1.20.1"},
       {:jason, "~> 1.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp aliases do
+    [
+      "build.local": "cmd fly launch --local-only ",
+      deploy: "cmd fly launch --now"
     ]
   end
 end

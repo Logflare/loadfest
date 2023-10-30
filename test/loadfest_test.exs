@@ -1,8 +1,8 @@
 defmodule LoadFestTest do
   use ExUnit.Case
-  doctest LoadFest
+  doctest Loadfest
 
   test "greets the world" do
-    assert LoadFest.hello() == :world
+    assert Loadfest.hello() == :world
   end
 end

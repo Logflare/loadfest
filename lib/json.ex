@@ -1,4 +1,4 @@
-defmodule LoadFest.Json do
+defmodule Loadfest.Json do
   import Enum
 
   def event() do

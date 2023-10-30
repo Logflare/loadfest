@@ -1,5 +1,6 @@
 import Config
 
+config :logger, level: :debug
 config :logger, :console, format: "$time $metadata[$level] $message\n"
 
 config :loadfest,
@@ -9,6 +10,7 @@ config :loadfest,
   # logflare_endpoint_prod: "https://logflare.app/api/logs",
   logflare_endpoint_prod: "https://api.logflare.app/logs",
   logflare_endpoint_dev: "http://localhost:4000/logs",
-  logflare_endpoint_stag: "https://api.logflarestaging.com/logs"
+  logflare_endpoint_stag: "https://api.logflarestaging.com/logs",
+  endpoint: "https://test.logflarestaging.com"
 
-import_config "secrets.exs"
+import_config("#{Mix.env()}.exs")
