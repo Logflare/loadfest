@@ -1,4 +1,4 @@
-defmodule LoadFest do
+defmodule Loadfest do
   @moduledoc """
   Load tester for Logflare.
   """
@@ -13,7 +13,7 @@ defmodule LoadFest do
   """
   def post_async(count, env) do
     for line <- 1..count do
-      Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+      Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
         post("#{line}", env)
       end)
     end
@@ -21,7 +21,7 @@ defmodule LoadFest do
 
   def post_async_json(count, batch_size, env) do
     for _line <- 1..count do
-      Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+      Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
         post_json(batch_size, env)
       end)
     end
@@ -38,7 +38,7 @@ defmodule LoadFest do
       Process.sleep(sleep)
 
       for _line <- 1..count do
-        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+        Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
           post_json(batch_size, env)
         end)
       end
@@ -56,7 +56,7 @@ defmodule LoadFest do
       Process.sleep(sleep)
 
       for line <- 1..count do
-        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+        Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
           post_batch("#{line}", env)
         end)
       end
@@ -68,7 +68,7 @@ defmodule LoadFest do
       Process.sleep(sleep)
 
       for _line <- 1..count do
-        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+        Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
           post_json(batch_size, env)
         end)
       end
@@ -86,7 +86,7 @@ defmodule LoadFest do
       Process.sleep(sleep)
 
       for _line <- 1..count do
-        Task.Supervisor.start_child(LoadFest.TaskSupervisor, fn ->
+        Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
           get(url)
         end)
       end
@@ -185,7 +185,7 @@ defmodule LoadFest do
 
     batch =
       0..batch_size
-      |> Enum.map(fn _x -> LoadFest.Json.event() end)
+      |> Enum.map(fn _x -> Loadfest.Json.event() end)
       |> Jason.encode!()
 
     ### Should pull metrics from HTTPoison to do this correctly.
