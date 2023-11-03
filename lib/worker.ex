@@ -54,8 +54,9 @@ defmodule Loadfest.Worker do
     next = System.monotonic_time()
     diff = next - prev
     response_headers = Enum.into(request.headers, %{})
-
-    Logger.info("#{request.status_code} | #{diff / 1_000_000}ms")
+    if (request.status_code >=300) do
+      Logger.warning("#{request.status_code} | #{inspect(request.body)}")
+    end
   end
 
   defp schedule_send() do
