@@ -54,7 +54,8 @@ defmodule Loadfest.Worker do
     next = System.monotonic_time()
     diff = next - prev
     response_headers = Enum.into(request.headers, %{})
-    if (request.status_code >=300) do
+
+    if request.status_code >= 400 do
       Logger.warning("#{request.status_code} | #{inspect(request.body)}")
     end
   end
