@@ -8,7 +8,7 @@ defmodule Loadfest.Worker do
 
   def init(_) do
     Logger.debug("Starting up worker")
-    schedule_send()
+    send(self(), :work)
 
     {:ok,
      %{
@@ -18,27 +18,22 @@ defmodule Loadfest.Worker do
      }}
   end
 
-  def handle_info(:send, state) do
-    Logger.debug("Sending new batch")
+  def handle_info(:work, state) do
+    batch_stream = make_batch_stream()
 
-    for name <- state.source_names,
-        num = Enum.random(0..5),
-        Logger.debug("Starting child for #{name} with #{num} requests"),
-        iter <- 0..num do
-      Task.Supervisor.start_child(Loadfest.TaskSupervisor, fn ->
-        do_send(state, :source_name, name)
-      end)
-    end
+    Task.Supervisor.async_stream(Loadfest.TaskSupervisor, batch_stream, fn batch ->
+      name = Enum.random(state.source_names)
+      :telemetry.execute([:loadfest, :send], %{name: name, batch_size: length(batch)})
+      do_send(state, :source_name, name, batch)
+    end)
+    |> Enum.to_list()
 
-    schedule_send()
+    send(self(), :work)
     {:noreply, state}
   end
 
-  defp do_send(state, :source_name, name) do
+  defp do_send(state, :source_name, name, batch) do
     # batch size
-    n = Enum.random(0..100)
-    batch = make_batch(n)
-
     headers = [
       {"Content-type", "application/json"},
       {"X-API-KEY", state.api_key},
@@ -60,14 +55,14 @@ defmodule Loadfest.Worker do
     diff = next - prev
     response_headers = Enum.into(request.headers, %{})
 
-    Logger.debug("#{request.status_code} | #{diff / 1_000_000}ms" |> IO.inspect())
+    Logger.info("#{request.status_code} | #{diff / 1_000_000}ms")
   end
 
   defp schedule_send() do
     Process.send_after(self(), :send, 200)
   end
 
-  defp make_batch(n \\ 50) do
+  def make_batch(n \\ 50) do
     metadata = %{
       custom_user_data: %{
         address: %{
@@ -96,4 +91,38 @@ defmodule Loadfest.Worker do
         }
       end)
   end
+
+  def stream_batch() do
+    StreamData.optional_map(%{
+      custom_user_data:
+        StreamData.optional_map(%{
+          address:
+            StreamData.optional_map(%{
+              city: gen_string(),
+              st: gen_string(),
+              street: gen_string(),
+              zip: gen_string()
+            }),
+          company: gen_string(),
+          id: StreamData.integer(),
+          login_count: StreamData.integer(),
+          vip: StreamData.boolean()
+        }),
+      datacenter: gen_string(),
+      ip_address: gen_string(),
+      request_headers:
+        StreamData.optional_map(%{connection: gen_string(), user_agent: gen_string()}),
+      request_method: gen_string()
+    })
+  end
+
+  def make_batch_stream() do
+    StreamData.frequency([
+      # {20, StreamData.list_of(stream_batch(), length: 1)},
+      {3, StreamData.list_of(stream_batch(), min_length: 5, max_length: 20)},
+      {1, StreamData.list_of(stream_batch(), min_length: 20, max_length: 50)}
+    ])
+  end
+
+  defp gen_string, do: StreamData.string(:alphanumeric, min_length: 2, max_length: 20)
 end

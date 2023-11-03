@@ -4,22 +4,37 @@ defmodule Loadfest.Application do
   """
   require Logger
 
+  import Telemetry.Metrics
   use Application
 
   def start(_type, _args) do
     Logger.info("Starting Loadfest")
 
-    children = [
-      {Task.Supervisor, name: Loadfest.TaskSupervisor},
-      :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000),
-      # {PartitionSupervisor,
-      #   child_spec: Loadfest.Worker,
-      #   name: Loadfest.WorkerSup
-      # }
-      Loadfest.Worker
-    ]
+    children =
+      case Application.get_env(:loadfest, :env) do
+        :test ->
+          [
+            {Task.Supervisor, name: Loadfest.TaskSupervisor},
+            :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000)
+          ]
+
+        _ ->
+          [
+            {Task.Supervisor, name: Loadfest.TaskSupervisor},
+            :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000),
+            Loadfest.Worker
+
+            # {Telemetry.Metrics.ConsoleReporter, metrics: metrics()}
+          ]
+      end
 
     opts = [strategy: :one_for_one, name: Loadfest.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp metrics do
+    [
+      summary("loadfest.send.batch_size")
+    ]
   end
 end
