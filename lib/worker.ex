@@ -119,11 +119,7 @@ defmodule Loadfest.Worker do
   end
 
   def make_batch_stream() do
-    StreamData.frequency([
-      # {20, StreamData.list_of(stream_batch(), length: 1)},
-      {3, StreamData.list_of(stream_batch(), min_length: 5, max_length: 20)},
-      {1, StreamData.list_of(stream_batch(), min_length: 20, max_length: 50)}
-    ])
+    StreamData.list_of(stream_batch(), min_length: 20, max_length: 100)
   end
 
   defp gen_string, do: StreamData.string(:alphanumeric, min_length: 2, max_length: 20)
