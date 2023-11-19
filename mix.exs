@@ -26,7 +26,13 @@ defmodule Loadfest.MixProject do
       {:httpoison, "~> 2.0"},
       {:hackney, "~>1.20.1"},
       {:jason, "~> 1.0"},
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:benchee, "~> 1.0", only: [:dev, :test]},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:stream_data, "~> 0.5"},
+      {:telemetry_poller, "~> 1.0"},
+      {:telemetry, "~> 1.0"},
+      {:telemetry_metrics, "~> 0.6.1"}
     ]
   end
 
