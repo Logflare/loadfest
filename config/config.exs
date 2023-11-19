@@ -13,4 +13,4 @@ config :loadfest,
   logflare_endpoint_stag: "https://api.logflarestaging.com/logs",
   endpoint: "https://test.logflarestaging.com"
 
-import_config("#{Mix.env()}.exs")
+import_config("#{config_env()}.exs")
