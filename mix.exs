@@ -34,7 +34,8 @@ defmodule Loadfest.MixProject do
       {:stream_data, "~> 0.5"},
       {:telemetry_poller, "~> 1.0"},
       {:telemetry, "~> 1.0"},
-      {:telemetry_metrics, "~> 0.6.1"}
+      {:telemetry_metrics, "~> 0.6.1"},
+      {:broadway, "~> 1.0"}
     ]
   end
 
