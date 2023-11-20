@@ -25,6 +25,8 @@ defmodule Loadfest.MixProject do
     [
       {:httpoison, "~> 2.0"},
       {:hackney, "~>1.20.1"},
+      {:finch, "~> 0.16"},
+      {:tesla, "~> 1.4"},
       {:jason, "~> 1.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:benchee, "~> 1.0", only: [:dev, :test]},

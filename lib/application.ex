@@ -15,14 +15,17 @@ defmodule Loadfest.Application do
         :test ->
           [
             {Task.Supervisor, name: Loadfest.TaskSupervisor},
-            :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000)
+            :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000),
+            {Finch, name: Loadfest.Finch, size: 50_000},
           ]
 
         _ ->
           [
             {Task.Supervisor, name: Loadfest.TaskSupervisor},
             :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000),
-            Loadfest.Worker
+            {Finch, name: Loadfest.Finch, size: 10_000, count: 50},
+            Loadfest.Worker,
+            Loadfest.Counter
 
             # {Telemetry.Metrics.ConsoleReporter, metrics: metrics()}
           ]

@@ -267,9 +267,9 @@ defmodule Loadfest do
     )
   end
 
-  defp json_file() do
-    with {:ok, body} <- File.read("log_examples/papi_serp.json"),
-         {:ok, json} <- Jason.decode(body),
-         do: {:ok, json}
-  end
+  # defp json_file() do
+  #   with {:ok, body} <- File.read("log_examples/papi_serp.json"),
+  #        {:ok, json} <- Jason.decode(body),
+  #        do: {:ok, json}
+  # end
 end
