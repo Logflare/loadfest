@@ -1,5 +1,4 @@
 defmodule Loadfest.Counter do
-
   use GenServer
   require Logger
 
@@ -9,8 +8,9 @@ defmodule Loadfest.Counter do
 
   def init(_) do
     Logger.debug("Starting up counter")
-    ref= :counters.new(4, [:atomics])
+    ref = :counters.new(4, [:atomics])
     schedule()
+
     {:ok,
      %{
        ref: ref
@@ -26,7 +26,7 @@ defmodule Loadfest.Counter do
     :counters.add(state.ref, idx(:events), size)
     :counters.add(state.ref, idx(:total_requests), 1)
     :counters.add(state.ref, idx(:total_events), size)
-    {:noreply , state}
+    {:noreply, state}
   end
 
   def handle_info(:log, state) do
@@ -34,8 +34,9 @@ defmodule Loadfest.Counter do
       requests: :counters.get(state.ref, idx(:requests)),
       events: :counters.get(state.ref, idx(:events)),
       total_requests: :counters.get(state.ref, idx(:total_requests)),
-      total_events: :counters.get(state.ref, idx(:total_events)),
+      total_events: :counters.get(state.ref, idx(:total_events))
     }
+
     Logger.info(inspect(stats))
     :counters.put(state.ref, idx(:requests), 0)
     :counters.put(state.ref, idx(:events), 0)
@@ -44,9 +45,8 @@ defmodule Loadfest.Counter do
   end
 
   defp schedule() do
-    Process.send_after(self(),:log, 1_000)
+    Process.send_after(self(), :log, 1_000)
   end
-
 
   def idx(:requests), do: 1
   def idx(:events), do: 2

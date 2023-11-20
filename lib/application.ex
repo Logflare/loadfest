@@ -16,7 +16,7 @@ defmodule Loadfest.Application do
           [
             {Task.Supervisor, name: Loadfest.TaskSupervisor},
             :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000),
-            {Finch, name: Loadfest.Finch, size: 50_000},
+            {Finch, name: Loadfest.Finch, size: 50_000}
           ]
 
         _ ->

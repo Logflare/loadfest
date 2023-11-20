@@ -50,7 +50,8 @@ defmodule Loadfest.Worker do
     request = Loadfest.Client.send(name, body)
     next = System.monotonic_time()
     diff = next - prev
-    if (request.status == 200) do
+
+    if request.status == 200 do
       Loadfest.Counter.add(length(batch))
     end
 

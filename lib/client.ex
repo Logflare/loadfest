@@ -1,16 +1,17 @@
-
 defmodule Loadfest.Client do
   use Tesla
 
-  adapter Tesla.Adapter.Finch, name: Loadfest.Finch
+  adapter(Tesla.Adapter.Finch, name: Loadfest.Finch)
   @api_key Application.get_env(:loadfest, :api_key)
   @endpoint Application.get_env(:loadfest, :endpoint)
 
-  plug Tesla.Middleware.BaseUrl, @endpoint
-  plug Tesla.Middleware.Headers, [
+  plug(Tesla.Middleware.BaseUrl, @endpoint)
+
+  plug(Tesla.Middleware.Headers, [
     {"Content-Type", "application/json"},
     {"x-api-key", @api_key}
-  ]
+  ])
+
   # plug Tesla.Middleware.JSON
   # plug Tesla.Middleware.Compression, format: "gzip"
 
