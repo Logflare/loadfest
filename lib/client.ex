@@ -12,7 +12,8 @@ defmodule Loadfest.Client do
           Tesla.Middleware.Headers,
           [
             {"Content-Type", "application/json"},
-            {"x-api-key", api_key}
+            {"x-api-key", api_key},
+            {"User-Agent", "Loadfest"}
           ]
         }
       ],
