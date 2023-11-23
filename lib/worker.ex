@@ -40,23 +40,23 @@ defmodule Loadfest.Worker do
       {"User-Agent", "Loadfest"}
     ]
 
-    body =
-      Jason.encode!(%{
-        source_name: name,
-        batch: batch
-      })
+    body = %{
+      source_name: name,
+      batch: batch
+    }
 
     prev = System.monotonic_time()
 
-    request =
-      HTTPoison.post!("#{state.endpoint}/logs", body, headers, hackney: [pool: :loadfest_pool])
-
+    request = Loadfest.Client.send(name, body)
     next = System.monotonic_time()
     diff = next - prev
-    response_headers = Enum.into(request.headers, %{})
 
-    if request.status_code >= 400 do
-      Logger.warning("#{request.status_code} | #{inspect(request.body)}")
+    if request.status == 200 do
+      Loadfest.Counter.add(length(batch))
+    end
+
+    if request.status >= 400 do
+      Logger.warning("#{request.status} | #{inspect(request.body)}")
     end
   end
 
