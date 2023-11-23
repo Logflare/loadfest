@@ -12,4 +12,4 @@ config :loadfest,
     "loadfest.test.4",
     "loadfest.test.5"
   ],
-  max_rps: 5
+  max_rps: 10
