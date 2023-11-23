@@ -45,7 +45,7 @@ defmodule Loadfest.Pipeline do
       batch: message.data
     }
 
-    request = Loadfest.Client.send(name, body) |> IO.inspect()
+    request = Loadfest.Client.send(name, body)
 
     if request.status == 200 do
       Loadfest.Counter.add(length(message.data))

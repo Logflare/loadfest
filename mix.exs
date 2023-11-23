@@ -42,7 +42,7 @@ defmodule Loadfest.MixProject do
   defp aliases do
     [
       "build.local": "cmd fly launch --local-only ",
-      deploy: "cmd fly launch --now"
+      deploy: "cmd fly deploy --now"
     ]
   end
 end
