@@ -19,6 +19,6 @@ defmodule Loadfest.Client do
       ],
       {Tesla.Adapter.Finch, name: Loadfest.Finch}
     )
-    |> post!("/api/logs", Jason.encode!(payload), query: [source_name: source_name])
+    |> post!("/logs", Jason.encode!(payload), query: [source_name: source_name])
   end
 end
