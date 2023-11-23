@@ -4,6 +4,7 @@ defmodule Loadfest.Pipeline do
   alias Broadway.Message
   require Logger
   @source_names Application.get_env(:loadfest, :source_names)
+  @max_rps Application.get_env(:loadfest, :max_rps, 100_000)
   defmodule Producer do
     use GenStage
 
@@ -32,7 +33,7 @@ defmodule Loadfest.Pipeline do
         module: {Loadfest.Pipeline.Producer, []}
       ],
       processors: [
-        default: [concurrency: 50, max_demand: 1]
+        default: [concurrency: min(@max_rps, 50), max_demand: 1]
       ]
     )
   end
@@ -45,14 +46,17 @@ defmodule Loadfest.Pipeline do
       batch: message.data
     }
 
-    request = Loadfest.Client.send(name, body)
+    rps = Loadfest.Counter.requests()
+    if rps < @max_rps do
+      request = Loadfest.Client.send(name, body)
 
-    if request.status == 200 do
-      Loadfest.Counter.add(length(message.data))
-    end
+      if request.status == 200 do
+        Loadfest.Counter.add(length(message.data))
+      end
 
-    if request.status >= 400 do
-      Logger.warning("#{request.status} | #{inspect(request.body)}")
+      if request.status >= 400 do
+        Logger.warning("#{request.status} | #{inspect(request.body)}")
+      end
     end
 
     message
