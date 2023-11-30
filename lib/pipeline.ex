@@ -17,7 +17,8 @@ defmodule Loadfest.Pipeline do
     end
 
     def handle_demand(demand, state) when demand > 0 do
-      events = Loadfest.Worker.make_batch()
+      events = Loadfest.Worker.make_batch(Enum.random(50..100))
+      # events = Loadfest.Worker.make_batch_stream() |> Enum.to_list() |> dbg()
       {:noreply, [%Broadway.Message{data: events, acknowledger: {__MODULE__, :ack, 3}}], state}
     end
 
@@ -27,13 +28,15 @@ defmodule Loadfest.Pipeline do
   end
 
   def start_link(_opts) do
+    Logger.info("Starting pipeline with #{4 * System.schedulers_online()} concurrency")
+
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
       producer: [
         module: {Loadfest.Pipeline.Producer, []}
       ],
       processors: [
-        default: [concurrency: min(@max_rps, 50), max_demand: 1]
+        default: [concurrency: 4 * System.schedulers_online(), max_demand: 1]
       ]
     )
   end
@@ -47,6 +50,7 @@ defmodule Loadfest.Pipeline do
     }
 
     rps = Loadfest.Counter.requests()
+
     if rps < @max_rps do
       request = Loadfest.Client.send(name, body)
 
