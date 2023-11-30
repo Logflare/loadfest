@@ -20,6 +20,7 @@ defmodule Loadfest.Counter do
   def add(batch_size) do
     GenServer.cast(__MODULE__, {:add, batch_size})
   end
+
   def requests() do
     GenServer.call(__MODULE__, :requests)
   end
@@ -34,7 +35,7 @@ defmodule Loadfest.Counter do
 
   def handle_call(:requests, _caller, state) do
     value = :counters.get(state.ref, idx(:requests))
-  {:reply, value, state}
+    {:reply, value, state}
   end
 
   def handle_info(:log, state) do

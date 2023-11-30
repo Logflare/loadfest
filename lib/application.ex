@@ -23,10 +23,10 @@ defmodule Loadfest.Application do
           [
             {Task.Supervisor, name: Loadfest.TaskSupervisor},
             :hackney_pool.child_spec(:loadfest_pool, timeout: 15_000, max_connections: 10_000),
-            {Finch, name: Loadfest.Finch, size: 10_000, count: 10},
+            {Finch, name: Loadfest.Finch, size: 10_000, count: 1},
             # Loadfest.Worker,
-            Loadfest.Pipeline,
-            Loadfest.Counter
+            Loadfest.Counter,
+            Loadfest.Pipeline
 
             # {Telemetry.Metrics.ConsoleReporter, metrics: metrics()}
           ]
