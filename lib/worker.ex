@@ -94,8 +94,52 @@ defmodule Loadfest.Worker do
       end)
   end
 
+  def stream_batch_sizes() do
+    StreamData.frequency([
+      {8, StreamData.constant(1)},
+      {2, StreamData.integer(1..10)},
+      {2, StreamData.integer(50..60)},
+      {1, StreamData.integer(80..100)},
+      {3, StreamData.integer(100..150)},
+      {1, StreamData.integer(150..250)}
+    ])
+  end
+
   def stream_batch() do
-    StreamData.optional_map(%{
+    StreamData.fixed_map(%{
+      context:
+        StreamData.fixed_map(%{
+          tags: StreamData.list_of(gen_string(), max_length: 50),
+          value: StreamData.integer(),
+          property_a: gen_string(),
+          property_b: gen_string(),
+          property_c: gen_string(),
+          property_d: gen_string(),
+          property_e: gen_string(),
+          property_f: gen_string(),
+          property_g: gen_string(),
+          generated: StreamData.map_of(StreamData.integer(1..100), gen_string(), min_length: 5, max_length: 10),
+          nested:
+            StreamData.fixed_map(%{
+              property_a: gen_string(),
+              property_b: gen_string(),
+              property_c: gen_string(),
+              property_d: gen_string(),
+              property_e: gen_string(),
+              property_f: gen_string(),
+              property_g: gen_string(),
+              nested_twice:
+                StreamData.optional_map(%{
+                  property_a: gen_string(),
+                  property_b: gen_string(),
+                  property_c: gen_string(),
+                  property_d: gen_string(),
+                  property_e: gen_string(),
+                  property_f: gen_string(),
+                  property_g: gen_string()
+                })
+            })
+        }),
       custom_user_data:
         StreamData.optional_map(%{
           address:
