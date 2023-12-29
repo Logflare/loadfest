@@ -5,6 +5,12 @@ defmodule Loadfest.Client do
     endpoint = Application.get_env(:loadfest, :endpoint)
     api_key = Application.get_env(:loadfest, :api_key)
 
+    {payload, headers} = if(length(payload.batch) > 99, do: "gzip", else: Enum.random(["gzip", nil]))
+    |> case do
+      nil -> {Jason.encode!(payload), []}
+      "gzip" -> {:zlib.gzip(Jason.encode!(payload)), [{"Content-Encoding", "gzip"}]}
+
+    end
     Tesla.client(
       [
         {Tesla.Middleware.BaseUrl, endpoint},
@@ -14,11 +20,11 @@ defmodule Loadfest.Client do
             {"Content-Type", "application/json"},
             {"x-api-key", api_key},
             {"User-Agent", "Loadfest"}
-          ]
+          ] ++ headers
         }
       ],
       {Tesla.Adapter.Finch, name: Loadfest.Finch}
     )
-    |> post!("/logs", Jason.encode!(payload), query: [source_name: source_name])
+    |> post!("/logs", payload, query: [source_name: source_name])
   end
 end
