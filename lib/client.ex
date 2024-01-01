@@ -7,6 +7,8 @@ defmodule Loadfest.Client do
 
     Tesla.client(
       [
+        {Tesla.Middleware.Timeout, timeout: 15_000},
+        {Tesla.Middleware.Retry, delay: 500, max_retries: 10, max_delay: 5_000},
         {Tesla.Middleware.BaseUrl, endpoint},
         {
           Tesla.Middleware.Headers,
