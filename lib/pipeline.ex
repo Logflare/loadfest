@@ -40,7 +40,7 @@ defmodule Loadfest.Pipeline do
         module: {Loadfest.Pipeline.Producer, []}
       ],
       processors: [
-        default: [concurrency: 4 * System.schedulers_online(), max_demand: 1]
+        default: [concurrency: System.schedulers_online(), max_demand: 1]
       ]
     )
   end
