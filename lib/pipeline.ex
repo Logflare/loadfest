@@ -18,7 +18,7 @@ defmodule Loadfest.Pipeline do
 
     def handle_demand(demand, state) when demand > 0 do
       messages = for _i <- 1..demand do
-          %Broadway.Message{data: Loadfest.Worker.make_batch(), acknowledger: {__MODULE__, :ack, 3}}
+          %Broadway.Message{data: Loadfest.Worker.make_batch(250), acknowledger: {__MODULE__, :ack, 3}}
       end
 
       {:noreply, messages, state}
