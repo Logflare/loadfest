@@ -118,7 +118,11 @@ defmodule Loadfest.Worker do
           property_e: gen_string(),
           property_f: gen_string(),
           property_g: gen_string(),
-          generated: StreamData.map_of(StreamData.integer(1..100), gen_string(), min_length: 5, max_length: 10),
+          generated:
+            StreamData.map_of(StreamData.integer(1..100), gen_string(),
+              min_length: 5,
+              max_length: 10
+            ),
           nested:
             StreamData.fixed_map(%{
               property_a: gen_string(),

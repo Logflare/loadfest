@@ -5,14 +5,16 @@ defmodule Loadfest.Client do
     endpoint = Application.get_env(:loadfest, :endpoint)
     api_key = Application.get_env(:loadfest, :api_key)
 
-    middlewares = case Enum.random(["gzip", nil]) do
-      nil ->
-        []
-      "gzip" ->
+    middlewares =
+      case Enum.random(["gzip", nil]) do
+        nil ->
+          []
+
+        "gzip" ->
           [
-            {Tesla.Middleware.Compression, format: "gzip"},
+            {Tesla.Middleware.Compression, format: "gzip"}
           ]
-    end
+      end
 
     Tesla.client(
       [
@@ -30,7 +32,6 @@ defmodule Loadfest.Client do
       ] ++ middlewares,
       {Tesla.Adapter.Finch, name: Loadfest.Finch}
     )
-
     |> post!("/logs", Jason.encode!(payload), query: [source_name: source_name])
   end
 end
