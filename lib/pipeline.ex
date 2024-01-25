@@ -17,9 +17,15 @@ defmodule Loadfest.Pipeline do
     end
 
     def handle_demand(demand, state) when demand > 0 do
-      messages = for _i <- 1..demand do
-          %Broadway.Message{data: Loadfest.Worker.make_batch(250), acknowledger: {__MODULE__, :ack, 3}}
-      end
+      num = Enum.random([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 50, 50, 50, 250])
+
+      messages =
+        for _i <- 1..demand do
+          %Broadway.Message{
+            data: Loadfest.Worker.make_batch(num),
+            acknowledger: {__MODULE__, :ack, 3}
+          }
+        end
 
       {:noreply, messages, state}
     end
