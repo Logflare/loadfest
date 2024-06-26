@@ -64,7 +64,20 @@ defmodule Loadfest.Worker do
     Process.send_after(self(), :send, 200)
   end
 
-  def make_batch(n \\ 50) do
+  def make_batch(n \\ 50, text \\ "") do
+#     message = """
+#     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non condimentum mauris. Cras dapibus eget purus nec lacinia. Nam aliquam laoreet libero, non posuere ligula luctus eget. Sed et magna in leo tincidunt aliquam. Donec ac hendrerit risus. Aliquam id dolor gravida, laoreet erat eget, maximus nibh. Aliquam facilisis diam ipsum, at iaculis mi rutrum eu.
+
+# Proin arcu mi, aliquam sit amet augue sit amet, efficitur vulputate metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam sit amet diam urna. Nullam bibendum malesuada dui vel ultrices. Etiam tempus, diam eu accumsan dictum, arcu lorem hendrerit est, at egestas nisi lorem sit amet ligula. Fusce euismod, mi sit amet luctus posuere, metus ligula fringilla risus, nec egestas magna justo sed mi. Donec vehicula velit purus, ut tincidunt lacus facilisis in.
+
+# Donec quis tortor ut tortor lacinia egestas sit amet vitae augue. Morbi vitae diam nulla. Donec vulputate ante tortor, a auctor felis efficitur eu. Sed iaculis blandit arcu quis ultricies. Quisque dictum ex velit, id feugiat purus pellentesque nec. Vestibulum vel lacus et mauris aliquet placerat. Nunc sodales luctus sem, a consectetur lorem.
+
+# Curabitur vestibulum arcu eu ipsum pulvinar tincidunt. Pellentesque in massa sed tellus elementum ullamcorper. Curabitur eget diam eu neque finibus tempus. Praesent ultrices, purus sed laoreet sagittis, risus justo maximus mi, lacinia facilisis metus massa ut velit. Sed at sapien ut mi gravida volutpat. Mauris leo sem, egestas vel metus et, pretium condimentum urna. Quisque eu pellentesque nulla, id dapibus dolor.
+
+# Nulla pharetra tincidunt venenatis. Mauris ut ante mi. Morbi hendrerit ex augue, in venenatis lacus ornare in. Vestibulum sagittis molestie turpis, nec volutpat justo euismod et. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean porta efficitur luctus. Etiam venenatis tincidunt posuere. Vivamus congue, massa a congue venenatis, odio tortor volutpat nisl, non varius leo ex sed ligula. Curabitur varius tortor et commodo vulputate. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam cursus dictum mi eu tristique. Duis cursus molestie tristique. Maecenas quis justo nec elit venenatis consectetur. Donec quis ipsum sit amet dui tincidunt vulputate vitae at arcu.
+#     """
+#     |> String.duplicate(15)
+
     metadata = %{
       custom_user_data: %{
         address: %{
@@ -84,14 +97,13 @@ defmodule Loadfest.Worker do
       request_method: "POST"
     }
 
-    batch =
-      0..n
-      |> Enum.map(fn _x ->
-        %{
-          message: "batch size is #{n}",
-          metadata: metadata
-        }
-      end)
+    batch = for _ <- 0..n do
+      %{
+        message: "batch size is #{n} #{text}",
+        # message: "batch size is #{n} | #{message}",
+        metadata: metadata
+      }
+    end
   end
 
   def stream_batch_sizes() do
