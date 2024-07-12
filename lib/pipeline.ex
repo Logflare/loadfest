@@ -17,8 +17,7 @@ defmodule Loadfest.Pipeline do
     end
 
     def handle_demand(demand, state) when demand > 0 do
-      # num = Enum.random([250, 150, 50])
-      num = Enum.random([10, 50, 250])
+      num = Enum.random([1, 50, 250])
       text = Enum.random(["aaa","bbb", "ccc", "ddd", "eee"])
 
       messages =
