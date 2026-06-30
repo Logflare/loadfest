@@ -1,0 +1,35 @@
+{
+  "attributes": {
+    "method": "POST",
+    "path": "/functions/v1/stripe-worker",
+    "product": "functions",
+    "relative_path": "/stripe-worker"
+  },
+  "end_time": 0,
+  "event_message": "products.handle_request",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "metadata": {
+    "type": "span"
+  },
+  "parent_span_id": "0000000000000000",
+  "project": "supabase-api-gateway",
+  "resource": {
+    "cloud": {
+      "region": "us-east-1"
+    },
+    "deployment": {
+      "environment": "staging"
+    },
+    "service": {
+      "name": "supabase-api-gateway",
+      "version": "1.0.0"
+    }
+  },
+  "scope": {
+    "name": "supabase-api-gateway"
+  },
+  "span_id": "0000000000000000",
+  "start_time": 0,
+  "timestamp": 0,
+  "trace_id": "00000000000000000000000000000000"
+}

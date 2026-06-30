@@ -32,6 +32,10 @@ defmodule Loadfest.Application do
           ]
       end
 
+    if Application.get_env(:loadfest, :source_mode) == :realistic do
+      Loadfest.Fixtures.load()
+    end
+
     opts = [strategy: :one_for_one, name: Loadfest.Supervisor]
     Supervisor.start_link(children, opts)
   end

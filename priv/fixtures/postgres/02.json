@@ -1,0 +1,22 @@
+{
+  "event_message": "checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 3 recycled; write=0.434 s, sync=0.010 s, total=0.544 s; sync files=6, longest=0.005 s, average=0.002 s; distance=49152 kB, estimate=49152 kB; lsn=163/60000080, redo lsn=163/60000028",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "identifier": "test-project",
+  "metadata": {
+    "host": "db-test-project",
+    "parsed": {
+      "backend_type": "checkpointer",
+      "error_severity": "LOG",
+      "process_id": 28136,
+      "query_id": 0,
+      "session_id": "f33b2c4a.a7e8",
+      "session_line_num": 73048,
+      "session_start_time": "2025-07-31 08:41:46 UTC",
+      "sql_state_code": "00000",
+      "timestamp": "2025-12-16 19:26:40.806 UTC",
+      "transaction_id": 0
+    }
+  },
+  "project": "test-project",
+  "timestamp": 0
+}

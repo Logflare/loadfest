@@ -3,7 +3,6 @@ defmodule Loadfest.Pipeline do
 
   alias Broadway.Message
   require Logger
-  @source_names Application.get_env(:loadfest, :source_names)
   @max_rps Application.get_env(:loadfest, :max_rps, 100_000)
   defmodule Producer do
     use GenStage
@@ -51,11 +50,22 @@ defmodule Loadfest.Pipeline do
   end
 
   def handle_message(_processor_name, message, _context) do
-    name = Enum.random(@source_names)
+    source_names = Application.get_env(:loadfest, :source_names)
+    name = Enum.random(source_names)
+
+    batch =
+      case Application.get_env(:loadfest, :source_mode) do
+        :realistic ->
+          prefix = String.replace_prefix(name, "loadfest.", "")
+          for _ <- 1..length(message.data), do: Loadfest.Fixtures.random_event(prefix)
+
+        _ ->
+          message.data
+      end
 
     body = %{
       source_name: name,
-      batch: message.data
+      batch: batch
     }
 
     rps = Loadfest.Counter.requests()
