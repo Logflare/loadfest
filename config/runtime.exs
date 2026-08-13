@@ -5,7 +5,10 @@ if System.get_env("LOGFLARE_PUBLIC_API_KEY") do
     api_key: System.get_env("LOGFLARE_PUBLIC_API_KEY")
 end
 
-if System.get_env("LOADFEST_ENDPOINT") do
-  config :loadfest,
-    endpoint: System.get_env("LOADFEST_ENDPOINT")
+case System.get_env("LOADFEST_ENDPOINT") do
+  endpoint when endpoint not in [nil, ""] ->
+    config :loadfest, endpoint: endpoint
+
+  _ ->
+    :ok
 end
