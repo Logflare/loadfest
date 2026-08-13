@@ -32,6 +32,15 @@ defmodule Loadfest.Application do
           ]
       end
 
+    configured_sources = Application.get_env(:loadfest, :source_names, [])
+    fixture_sources = Loadfest.Fixtures.sources()
+
+    if Enum.any?(configured_sources, fn name ->
+         String.replace_prefix(name, "loadfest.", "") in fixture_sources
+       end) do
+      Loadfest.Fixtures.load()
+    end
+
     opts = [strategy: :one_for_one, name: Loadfest.Supervisor]
     Supervisor.start_link(children, opts)
   end

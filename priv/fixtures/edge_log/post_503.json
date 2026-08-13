@@ -1,0 +1,112 @@
+{
+  "event_message": "POST | 503 | 1.2.3.4 | cf-ray-000000000000 | https://test-project.supabase.co/rest/v1/pings_general | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "identifier": "test-project",
+  "logflare_worker": { "worker_id": "GAG9IZ" },
+  "metadata": {
+    "logflare_worker": { "worker_id": "GAG9IZ" },
+    "request": {
+      "cf": {
+        "asOrganization": "Test ISP",
+        "asn": 52468,
+        "botManagement": {
+          "corporateProxy": false,
+          "ja3Hash": "36390100fa274f9fa152f770b71e3951",
+          "ja4": "q93daf12h3_e5b375c5d22e_5c06198af69e",
+          "ja4Signals": {
+            "browser_ratio_1h": 0.92763668298721,
+            "cache_ratio_1h": 0.30760100483894,
+            "h2h3_ratio_1h": 1.0,
+            "heuristic_ratio_1h": 0.0011678752489388,
+            "ips_quantile_1h": 0.99998807907104,
+            "ips_rank_1h": 10,
+            "paths_rank_1h": 8,
+            "reqs_quantile_1h": 0.99998807907104,
+            "reqs_rank_1h": 10,
+            "uas_rank_1h": 28
+          },
+          "jsDetection": { "passed": false },
+          "score": 39,
+          "staticResource": false,
+          "verifiedBot": false
+        },
+        "city": "Test City",
+        "clientAcceptEncoding": "gzip, deflate, br",
+        "clientTrustScore": 39,
+        "colo": "GYE",
+        "continent": "SA",
+        "country": "EC",
+        "edgeRequestKeepAliveStatus": 1,
+        "httpProtocol": "HTTP/3",
+        "latitude": "-2.19616",
+        "longitude": "-79.88622",
+        "region": "Test Region",
+        "regionCode": "T",
+        "timezone": "America/Test",
+        "tlsCipher": "AEAD-AES128-GCM-SHA256",
+        "tlsClientAuth": {
+          "certPresented": "0",
+          "certRevoked": "0",
+          "certVerified": "NONE"
+        },
+        "tlsVersion": "TLSv1.3"
+      },
+      "headers": {
+        "accept": "*/*",
+        "cf_connecting_ip": "1.2.3.4",
+        "cf_ipcountry": "EC",
+        "cf_ray": "cf-ray-000000000000",
+        "content_length": "116",
+        "content_type": "application/json",
+        "host": "test-project.supabase.co",
+        "prefer": "return=minimal",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "x_forwarded_proto": "https",
+        "x_real_ip": "1.2.3.4"
+      },
+      "host": "test-project.supabase.co",
+      "method": "POST",
+      "path": "/rest/v1/pings_general",
+      "protocol": "https:",
+      "sb": {
+        "jwt": {
+          "apikey": {
+            "payload": {
+              "algorithm": "HS256",
+              "expires_at": 2054973558,
+              "issuer": "supabase",
+              "role": "anon",
+              "signature_prefix": "MZc_X9"
+            }
+          },
+          "authorization": {
+            "payload": {
+              "algorithm": "HS256",
+              "expires_at": 2054973558,
+              "issuer": "supabase",
+              "role": "anon",
+              "signature_prefix": "MZc_X9"
+            }
+          }
+        }
+      },
+      "url": "https://test-project.supabase.co/rest/v1/pings_general"
+    },
+    "response": {
+      "headers": {
+        "cf_cache_status": "DYNAMIC",
+        "cf_ray": "cf-ray-000000000000",
+        "content_type": "text/plain",
+        "sb_gateway_version": "1",
+        "sb_request_id": "00000000-0000-0000-0000-000000000000",
+        "transfer_encoding": "chunked"
+      },
+      "origin_time": 56846,
+      "status_code": 503
+    }
+  },
+  "origin_time": 56846,
+  "project": "test-project",
+  "request_id": "00000000-0000-0000-0000-000000000000",
+  "timestamp": 0
+}

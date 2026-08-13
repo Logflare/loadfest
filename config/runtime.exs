@@ -12,3 +12,8 @@ case System.get_env("LOADFEST_ENDPOINT") do
   _ ->
     :ok
 end
+
+case System.get_env("LOADFEST_SOURCE_NAMES", "") |> String.split(",", trim: true) do
+  [] -> :ok
+  source_names -> config :loadfest, source_names: source_names
+end

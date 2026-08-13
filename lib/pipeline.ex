@@ -3,8 +3,8 @@ defmodule Loadfest.Pipeline do
 
   alias Broadway.Message
   require Logger
-  @source_names Application.get_env(:loadfest, :source_names)
   @max_rps Application.get_env(:loadfest, :max_rps, 100_000)
+  @valid_fixture_sources Loadfest.Fixtures.sources()
   defmodule Producer do
     use GenStage
 
@@ -50,12 +50,22 @@ defmodule Loadfest.Pipeline do
     )
   end
 
+  defp fixture_prefix("loadfest." <> suffix) when suffix in @valid_fixture_sources, do: suffix
+  defp fixture_prefix(_), do: nil
+
   def handle_message(_processor_name, message, _context) do
-    name = Enum.random(@source_names)
+    source_names = Application.get_env(:loadfest, :source_names)
+    name = Enum.random(source_names)
+
+    batch =
+      case fixture_prefix(name) do
+        nil -> message.data
+        prefix -> for _ <- 1..length(message.data), do: Loadfest.Fixtures.random_event(prefix)
+      end
 
     body = %{
       source_name: name,
-      batch: message.data
+      batch: batch
     }
 
     rps = Loadfest.Counter.requests()

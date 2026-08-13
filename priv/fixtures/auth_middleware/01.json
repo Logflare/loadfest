@@ -1,0 +1,41 @@
+{
+  "attributes": {
+    "_http_client_ip": "1.2.3.4",
+    "_http_method": "POST",
+    "_http_request_content_length": 1724,
+    "_http_response_content_length": 68,
+    "_http_route": "/token",
+    "_http_scheme": "http",
+    "_http_status_code": 400,
+    "_http_target": "/token",
+    "_net_host_name": "auth.supabase.io",
+    "_net_protocol_version": "1.1",
+    "_net_sock_peer_addr": "1.2.3.4",
+    "_net_sock_peer_port": 36196,
+    "_user_agent_original": "stripped"
+  },
+  "end_time": 0,
+  "event_message": "api",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "metadata": {
+    "type": "span"
+  },
+  "resource": {
+    "gotrue": {
+      "version": "v2.184.0-rc.5"
+    },
+    "supabase": {
+      "read_replica": "false",
+      "region": "ap-southeast-1",
+      "stack": "prod"
+    }
+  },
+  "scope": {
+    "name": "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp",
+    "version": "0.51.0"
+  },
+  "span_id": "0000000000000000",
+  "start_time": 0,
+  "timestamp": 0,
+  "trace_id": "00000000000000000000000000000000"
+}

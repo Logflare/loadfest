@@ -1,0 +1,27 @@
+{
+  "end_time": 0,
+  "event_message": "sql.rows",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "metadata": {
+    "type": "span"
+  },
+  "parent_span_id": "0000000000000000",
+  "resource": {
+    "gotrue": {
+      "version": "v2.184.0-rc.5"
+    },
+    "supabase": {
+      "read_replica": "false",
+      "region": "ap-southeast-1",
+      "stack": "prod"
+    }
+  },
+  "scope": {
+    "name": "github.com/XSAM/otelsql",
+    "version": "0.26.0"
+  },
+  "span_id": "0000000000000000",
+  "start_time": 0,
+  "timestamp": 0,
+  "trace_id": "00000000000000000000000000000000"
+}
