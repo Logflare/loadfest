@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feat/docker_build
   workflow_dispatch: {}
 
 jobs:
