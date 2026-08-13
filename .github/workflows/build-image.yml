@@ -34,4 +34,6 @@ jobs:
           context: .
           file: dockerfile
           push: true
-          tags: ghcr.io/logflare/loadfest:dev-${{ steps.env.outputs.short_sha }}
+          tags: |
+            ghcr.io/logflare/loadfest:dev-${{ steps.env.outputs.short_sha }}
+            ghcr.io/logflare/loadfest:latest
