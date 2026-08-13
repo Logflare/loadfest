@@ -2,6 +2,8 @@ defmodule Loadfest.Fixtures do
   @sources ~w(edge_log postgres auth_middleware realtime_log storage api_gateway_trace)
   @span_sources ~w(auth_middleware api_gateway_trace)
 
+  def sources, do: @sources
+
   def load do
     events =
       for source <- @sources, into: %{} do

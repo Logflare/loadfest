@@ -32,7 +32,12 @@ defmodule Loadfest.Application do
           ]
       end
 
-    if Application.get_env(:loadfest, :source_mode) == :realistic do
+    configured_sources = Application.get_env(:loadfest, :source_names, [])
+    fixture_sources = Loadfest.Fixtures.sources()
+
+    if Enum.any?(configured_sources, fn name ->
+         String.replace_prefix(name, "loadfest.", "") in fixture_sources
+       end) do
       Loadfest.Fixtures.load()
     end
 
