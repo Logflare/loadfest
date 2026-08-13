@@ -1,0 +1,114 @@
+{
+  "event_message": "POST | 200 | 1.2.3.4 | cf-ray-000000000000 | https://test-project.supabase.co/rest/v1/records?on_conflict=id | Deno/2.1.4 (variant; SupabaseEdgeRuntime/1.69.25)",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "identifier": "test-project",
+  "metadata": {
+    "logflare_worker": { "worker_id": "ZZ79SS" },
+    "request": {
+      "cf": {
+        "asOrganization": "Amazon Data Services Ireland Limited",
+        "asn": 16509,
+        "botManagement": {
+          "corporateProxy": false,
+          "ja3Hash": "a1465cad7ff59adb0e36ccd6339ba5db",
+          "ja4": "t23e1011h2_61a7dd8aa9b6_3fcd1a44f3e3",
+          "ja4Signals": {
+            "browser_ratio_1h": 0.0026498660445213,
+            "cache_ratio_1h": 0.038907047361135,
+            "h2h3_ratio_1h": 0.98994463682175,
+            "heuristic_ratio_1h": 0.22291173040867,
+            "ips_quantile_1h": 0.99974054098129,
+            "ips_rank_1h": 218,
+            "paths_rank_1h": 16,
+            "reqs_quantile_1h": 0.99995714426041,
+            "reqs_rank_1h": 36,
+            "uas_rank_1h": 294
+          },
+          "jsDetection": { "passed": false },
+          "score": 46,
+          "staticResource": false,
+          "verifiedBot": false
+        },
+        "city": "Dublin",
+        "clientAcceptEncoding": "gzip, br",
+        "clientTcpRtt": 4,
+        "clientTrustScore": 46,
+        "colo": "DUB",
+        "continent": "EU",
+        "country": "IE",
+        "edgeRequestKeepAliveStatus": 1,
+        "httpProtocol": "HTTP/2",
+        "latitude": "53.33326",
+        "longitude": "-6.24789",
+        "postalCode": "D02",
+        "region": "Leinster",
+        "regionCode": "L",
+        "timezone": "Europe/Dublin",
+        "tlsCipher": "AEAD-AES256-GCM-SHA384",
+        "tlsClientAuth": {
+          "certPresented": "0",
+          "certRevoked": "0",
+          "certVerified": "NONE"
+        },
+        "tlsVersion": "TLSv1.3"
+      },
+      "headers": {
+        "accept": "*/*",
+        "cf_connecting_ip": "1.2.3.4",
+        "cf_ipcountry": "IE",
+        "cf_ray": "cf-ray-000000000000",
+        "content_length": "18466",
+        "content_type": "application/json",
+        "host": "test-project.supabase.co",
+        "prefer": "resolution=merge-duplicates",
+        "user_agent": "Deno/2.1.4 (variant; SupabaseEdgeRuntime/1.69.25)",
+        "x_client_info": "supabase-js-deno/2.87.3",
+        "x_forwarded_proto": "https",
+        "x_real_ip": "1.2.3.4"
+      },
+      "host": "test-project.supabase.co",
+      "method": "POST",
+      "path": "/rest/v1/records",
+      "protocol": "https:",
+      "sb": {
+        "jwt": {
+          "apikey": {
+            "payload": {
+              "algorithm": "HS256",
+              "expires_at": 2079813626,
+              "issuer": "supabase",
+              "role": "service_role",
+              "signature_prefix": "xzZXVB"
+            }
+          },
+          "authorization": {
+            "payload": {
+              "algorithm": "HS256",
+              "expires_at": 2079813626,
+              "issuer": "supabase",
+              "role": "service_role",
+              "signature_prefix": "xzZXVB"
+            }
+          }
+        }
+      },
+      "search": "?on_conflict=id",
+      "url": "https://test-project.supabase.co/rest/v1/records?on_conflict=id"
+    },
+    "response": {
+      "headers": {
+        "cf_cache_status": "DYNAMIC",
+        "cf_ray": "cf-ray-000000000000",
+        "content_length": "0",
+        "content_range": "*/*",
+        "sb_gateway_version": "1",
+        "sb_request_id": "00000000-0000-0000-0000-000000000000"
+      },
+      "origin_time": 12,
+      "status_code": 200
+    }
+  },
+  "project": "test-project",
+  "request_id": "00000000-0000-0000-0000-000000000000",
+  "timestamp": 0
+}
