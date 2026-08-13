@@ -6,3 +6,6 @@
 app = "logflare-loadfest"
 primary_region = "sin"
 kill_signal = "SIGTERM"
+
+[env]
+  LOADFEST_ENDPOINT = "https://test.logflarestaging.com"

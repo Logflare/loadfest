@@ -11,6 +11,6 @@ config :loadfest,
   logflare_endpoint_prod: "https://api.logflare.app/logs",
   logflare_endpoint_dev: "http://localhost:4000/logs",
   logflare_endpoint_stag: "https://api.logflarestaging.com/logs",
-  endpoint: "https://test.logflarestaging.com"
+  endpoint: "my_endpoint"
 
 import_config("#{config_env()}.exs")
