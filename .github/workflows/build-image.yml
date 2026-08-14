@@ -4,7 +4,12 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      force_latest:
+        description: "Tag the resulting image as latest even though this isn't a push to master"
+        type: boolean
+        default: false
 
 jobs:
   settings:
@@ -18,7 +23,8 @@ jobs:
         id: env
         run: |
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/master" ]; then
+          if { [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/master" ]; } \
+            || [ "${{ inputs.force_latest }}" = "true" ]; then
             echo "push_latest=true" >> "$GITHUB_OUTPUT"
           else
             echo "push_latest=false" >> "$GITHUB_OUTPUT"
