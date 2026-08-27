@@ -20,6 +20,7 @@ COPY config/config.exs config/
 COPY config/prod.exs config/
 COPY config/runtime.exs config/
 COPY lib lib
+COPY priv priv
 
 # install mix dependencies
 COPY mix.exs mix.lock ./
